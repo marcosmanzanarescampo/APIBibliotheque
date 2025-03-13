@@ -40,6 +40,10 @@ export const empruntService = {
       if (!validation.valide) {
         throw new Error(validation.erreur);
       }
+      const disponible = nouveauEmprunt.estDisponible();
+      if (!disponible.valide) {
+        throw new Error(disponible.erreur);
+      }     
   
       // Sauvegarde via repository
       return empruntRepository.createEmprunt(nouveauEmprunt);    

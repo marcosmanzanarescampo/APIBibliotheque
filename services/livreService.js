@@ -14,6 +14,29 @@ export const livreService = {
       throw new Error('Error || livreService || getAllLivres' + error);
     }
   },
+
+  getAllLivresByCategorie(categorie){
+    try{
+      // Récuperation de tous les livres de la BBDD par la categorie 'categorie'
+      return livreRepository.findAllLivresByCategorie(categorie);      
+    }
+    catch(error){
+      console.log('Error || livreService ||  getLivresByCategorie:' + error);
+      throw new Error('Error || livreService ||  getLivresByCategorie' + error);
+    } 
+  },
+
+  
+  getAllLivresByAuteur(auteur){
+    try{
+      // Récuperation de tous les livres de la BBDD par l'auteur 'auteur'
+      return livreRepository.findAllLivresByAuteur(auteur);      
+    }
+    catch(error){
+      console.log('Error || livreService ||  getLivresByAuteur:' + error);
+      throw new Error('Error || livreService ||  getLivresByAuteur' + error);
+    } 
+  },
   
   getLivreById(id) {
     try{

@@ -7,7 +7,10 @@ import { openDB } from '../config/database.js';
 */
 async function initDb() {
     try {
-       const db = await openDB();    
+       const db = await openDB();  
+       
+       await db.exec("PRAGMA foreign_keys = ON;");
+        
         //sérializer les opérations avec la base de données
         db.getDatabaseInstance().serialize(() => {
         
@@ -103,6 +106,7 @@ async function createTables(db) {
                 livre INTEGER NOT NULL,
                 etat INTEGER NOT NULL,
                 rare BOOLEAN DEFAULT FALSE,
+                disponible BOOLEAN DEFAULT TRUE,
                 FOREIGN KEY (livre) REFERENCES livre(id),
                 FOREIGN KEY (etat) REFERENCES etat(id))`
         );

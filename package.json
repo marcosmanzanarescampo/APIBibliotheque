@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch server.js",
-    "init-db": "rm -f ./bibliotheque.db && node ./config/initDB.js"
+    "init-db": "rm -f ./data/bibliotheque.db && node ./config/initDB.js"
   },
   "keywords": [],
   "author": "",

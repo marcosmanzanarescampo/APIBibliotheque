@@ -89,8 +89,8 @@ export const empruntRepository = {
 
     }
     catch(error){
-      console.log('Error: Emprunt déjà existante dans la base de données!: ' + error);
-      throw new Error('Error: Emprunt déjà existante dans la base de données!:');
+      console.log("Error: Imposible de enregistrer l'emprunt: " + error);
+      throw new Error("Error: Imposible de enregistrer l'emprunt: !:");
     }
   },
 

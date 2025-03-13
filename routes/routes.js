@@ -65,7 +65,15 @@ export const routes = (req, res) => {
   else if ('/api/emprunts' && method === 'DELETE') { //ok
     const id = url.split('/')[3];
     empruntController.deleteEmprunt(req, res);
-  }  
+  }
+  else if(url.match(/^\/api\/livres\?categorie=\d+$/) && method === 'GET'){
+    const categorie = url.split('=')[1];
+    livreController.getAllLivresByCategorie(req, res, parseInt(categorie));       
+  }
+  else if(url.match(/^\/api\/livres\?auteur=\d+$/) && method === 'GET'){
+    const auteur = url.split('=')[1];
+    livreController.getAllLivresByAuteur(req, res, parseInt(auteur));       
+  }
   // Routes pour les emprunts **********************************
 
   // Route non trouvée

@@ -11,7 +11,7 @@ export async function openDB() {
             const myDb = open({
             filename: './data/bibliotheque.db',
             driver: sqlite3.Database,
-        });    
+        });            
 
         return myDb;
     } catch (error) {

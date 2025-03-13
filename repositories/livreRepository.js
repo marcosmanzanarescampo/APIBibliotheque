@@ -31,6 +31,65 @@ export const livreRepository = {
       throw new Error('Error fonction livreRepository' + error);
     };  
   },
+
+  
+  async findAllLivresByCategorie(categorie) {
+
+    try{
+      let stmt = await bd.prepare(`
+      SELECT L.*
+      FROM livre_categorie AS LC
+      JOIN livre AS L ON LC.livre = L.id
+      WHERE LC.categorie = ?;
+      `);
+   
+      const rows = await stmt.all(categorie); 
+      
+      // Transformation en instances de classe    
+      return rows.map(row => new Livre(
+        row.id,
+        row.titre,
+        row.ISBN,
+        row.annee_Publication,
+        row.nb_Pages,
+        row.editeur
+      ));      
+    }
+    catch{
+      console.log('Error fonction livreRepository' + error);
+      throw new Error('Error fonction livreRepository' + error);
+    };  
+  },
+
+  
+  async findAllLivresByAuteur(auteur) {
+
+    try{
+      let stmt = await bd.prepare(`
+      SELECT L.*
+      FROM livre AS L
+      JOIN livre_auteur AS LA ON L.id = LA.livre
+        WHERE LA.auteur = ?
+      ;
+      `);
+   
+      const rows = await stmt.all(auteur); 
+      
+      // Transformation en instances de classe    
+      return rows.map(row => new Livre(
+        row.id,
+        row.titre,
+        row.ISBN,
+        row.annee_Publication,
+        row.nb_Pages,
+        row.editeur
+      ));      
+    }
+    catch{
+      console.log('Error fonction livreRepository' + error);
+      throw new Error('Error fonction livreRepository' + error);
+    };  
+  },
   
   async findLivreById(id) {
       try{
