@@ -55,7 +55,7 @@ export const empruntService = {
       }
 
       empruntRepository.createEmprunt(nouveauEmprunt);
-      exemplaireRepository.mettreIndisponible(empruntData.exemplaire);
+      exemplaireRepository.fixerDisponible(empruntData.exemplaire, 0);
 
       return { data: nouveauEmprunt, message: "Emprunt réalisé avec succès" };
     }
@@ -64,10 +64,11 @@ export const empruntService = {
     }
   },
 
-  deleteEmprunt(emprunt){
-    try{
+  deleteEmprunt(empruntData){
+    try{      
       // Suppresion du emprunt passé par paramètre
-      return empruntRepository.deleteEmprunt(emprunt);
+      exemplaireRepository.fixerDisponible(empruntData.exemplaire, 1);
+      return empruntRepository.deleteEmprunt(empruntData);
     }
     catch(error){
       return { success: false, data: [], message: "Error || empruntService || deleteEmprunt:" + error }

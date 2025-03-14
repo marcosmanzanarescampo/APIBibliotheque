@@ -210,19 +210,19 @@ async estDisponible(id){
     }
 },
 
-async mettreIndisponible(id){
+async fixerDisponible(id, value){
     try{
     const stmt = await bd.prepare(`
         UPDATE exemplaire
-        SET disponible = 0
+        SET disponible = ?
         WHERE id = ?
     `);
-    const result = await stmt.run(id);
+    const result = await stmt.run(value, id);
         
     return (result.changes > 0);
     }
     catch(error){
-        return { success: false, data: [], message: "Error || eexmplaireRepository || mettreIndisponible:" + error };
+        return { success: false, data: [], message: "Error || exmplaireRepository || fixerDisponible:" + error };
     }       
 }
 };

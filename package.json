@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch server.js",
-    "init-db": "rm -f ./data/bibliotheque.db && node ./config/initDB.js"
+    "init-db": "rm -f ./data/bibliotheque.db && node ./config/initDB.js",
+    "vitest": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -18,5 +19,8 @@
   "dependencies": {
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.8"
   }
 }

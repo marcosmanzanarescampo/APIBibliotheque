@@ -76,7 +76,7 @@ export const empruntController = {
  },
 
    /**
-  * met à jour un emprunt de la base de données
+  * met à jour un emprunt de la base de données (seulemenet la date de retour effective!)
   */
    async updateEmprunt(req, res, id){
     try {
