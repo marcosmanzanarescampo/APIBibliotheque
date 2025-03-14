@@ -24,8 +24,7 @@ export const auteurRepository = {
       ));      
     }
     catch{
-      console.log('Error fonction auteurRepository' + error);
-      throw new Error('Error fonction auteurRepository' + error);
+      return { success: false, data: [], message: "Error || auteurRepository || findAuteurRepository:" + error };
     };  
   },
   
@@ -48,8 +47,7 @@ export const auteurRepository = {
         ); 
       }
       catch{
-        console.log('Error fonction auteurRepository' + error);
-        throw new Error('Error fonction auteurRepository' + error);
+        return { success: false, data: id, message: "Error || auteurRepositoryService || findAuteurById:" + error };
       }      
   },
 
@@ -67,15 +65,10 @@ export const auteurRepository = {
         auteur.nationalite  
       );
   
-      return {
-        id: result.lastInsertRowid,
-        changes: result.changes
-      };
-
+      return { success: true, data: auteur, message: "" };
     }
     catch(error){
-      console.log('Error fonction auteurRepository' + error);
-      throw new Error('Error fonction auteurRepository' + error);
+      return { success: false, data: [], message: "Error || auteurRepository || createAuteur:" + error };
     }
   },
 
@@ -89,14 +82,10 @@ export const auteurRepository = {
    
       const rows = await stmt.run(id); 
 
-      return {
-        id: rows.lastInsertRowid,
-        changes: rows.changes
-      };  
+      return { success: true, data: id, message: "" };
     }
     catch{
-      console.log('Error fonction auteurRepository' + error);
-      throw new Error('Error fonction auteurRepository' + error);
+      return { success: false, data: [], message: "Error || auteurRepository || deleteAuteur:" + error };
     }; 
   },
   
@@ -115,15 +104,11 @@ export const auteurRepository = {
         id
       );
   
-      return {
-        id: result.lastInsertRowid,
-        changes: result.changes
-      };
+      return { success: true, data: auteur, message: "" };
 
     }
     catch(error){
-      console.log('Error fonction auteurRepository' + error);
-      throw new Error('Error fonction auteurRepository' + error);
+      return { success: false, data: [], message: "Error || auteurRepository || updateAuteur:" + error };
     }
   }
 };

@@ -45,6 +45,34 @@ export const livreController = {
         res.end(JSON.stringify({ success: false, error: 'Erreur serveur' }));
       }
     },
+    
+   /**
+   * Récupère les livres par une page et avec une limite
+   */
+  async getAllLivresByPageLimit(req, res, page, limit){
+    try {
+      const livres = await livreService.getAllLivresByPageLimit(page, limit);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, data: livres }));
+    } catch (error) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: 'Erreur serveur' }));
+    }
+  },
+  
+    /**
+   * Récupère les livres par une categorie
+   */
+    async getAllLivresByAuteur(req, res, auteur) {
+      try {
+        const livres = await livreService.getAllLivresByAuteur(auteur);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, data: livres }));
+      } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Erreur serveur' }));
+      }
+    },
 
    /**
    * Récupère un livre par son id

@@ -23,7 +23,7 @@ export const empruntController = {
     async getEmpruntByLivre(req, res, id){
      try {      
        const emprunts = await empruntService.getEmpruntByLivre(id);
-
+      console.log('Je suis espagnole')
        console.log("CONTROLLER: Emprunt reçu: " + JSON.stringify(emprunts));//mais l'emprunt est vide!!!       
   
        res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -40,14 +40,14 @@ export const empruntController = {
   async createEmprunt(req, res) {
     try {
       const empruntData = await parseRequestBody(req);
-      const result = await empruntService.createEmprunt(empruntData);          
+      const result = empruntService.createEmprunt(empruntData);      
            
       res.writeHead(201, { 'Content-Type': 'application/json' });
            
       res.end(JSON.stringify({
-        success: true,
-        message: 'Emprunt créé avec succès',
-        data: { result }
+        success: result.success,
+        message: result.message,
+        data: result.data
       }));
     }
     catch (error) {

@@ -37,6 +37,18 @@ export const livreService = {
       throw new Error('Error || livreService ||  getLivresByAuteur' + error);
     } 
   },
+
+  
+  getAllLivresByPageLimit(page, limit){
+    try{
+      // Récuperation de tous les livres de la BBDD par l'auteur 'auteur'
+      return livreRepository.findAllLivresByPageLilmit(page, limit);      
+    }
+    catch(error){
+      console.log('Error || livreService ||  getLivresByAuteur:' + error);
+      throw new Error('Error || livreService ||  getLivresByAuteur' + error);
+    } 
+  },
   
   getLivreById(id) {
     try{

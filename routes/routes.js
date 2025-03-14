@@ -4,6 +4,16 @@ import { auteurController } from '../controllers/auteurController.js';
 import { empruntController } from '../controllers/empruntController.js';
 import { logger } from '../utils/logger.js';
 
+// functions additionales
+const getPages = (str) => {
+  return str.substring(str.indexOf("=")+1, str.indexOf('&'))
+}
+
+const getLimit = (str) => {
+  return str.substring(str.lastIndexOf("=")+1)  
+}
+// **********************
+
 export const routes = (req, res) => {
   const url = req.url;
   const method = req.method;
@@ -55,7 +65,7 @@ export const routes = (req, res) => {
     const id = url.split('/')[3];    
     empruntController.getEmpruntByLivre(req, res, parseInt(id));
   }
-  else if (url === '/api/emprunts' && method === 'POST') { //ok
+  else if (url === '/api/emprunts' && method === 'POST') { 
     empruntController.createEmprunt(req, res);
   }
   else if (url === '/api/emprunts' && method === 'PATCH') { //ok
@@ -66,15 +76,25 @@ export const routes = (req, res) => {
     const id = url.split('/')[3];
     empruntController.deleteEmprunt(req, res);
   }
-  else if(url.match(/^\/api\/livres\?categorie=\d+$/) && method === 'GET'){
+
+  // Routes pour les emprunts **********************************
+
+  // Routes les fonctionalitées avancées **********************************
+  else if(url.match(/^\/api\/livres\?categorie=\d+$/) && method === 'GET'){ //ok
     const categorie = url.split('=')[1];
     livreController.getAllLivresByCategorie(req, res, parseInt(categorie));       
   }
-  else if(url.match(/^\/api\/livres\?auteur=\d+$/) && method === 'GET'){
+  else if(url.match(/^\/api\/livres\?auteur=\d+$/) && method === 'GET'){ //ok
     const auteur = url.split('=')[1];
     livreController.getAllLivresByAuteur(req, res, parseInt(auteur));       
   }
-  // Routes pour les emprunts **********************************
+  else if(url.match(/^\/api\/livres\?page=\d+&limit=\d+$/) && method === 'GET'){ //ok
+    const page = getPages(url);
+    const limit = getLimit(url);
+
+    livreController.getAllLivresByPageLimit(req, res, parseInt(page), parseInt(limit));       
+  }
+    // Routes les fonctionalitées avancées **********************************    
 
   // Route non trouvée
   else {

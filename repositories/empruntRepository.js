@@ -43,8 +43,6 @@ export const empruntRepository = {
         const result = await stmt.get(id);
        // Transformation en instances de classe
 
-       console.log("REPOSITORY: data envoyé" + JSON.stringify(result));
-
         return new Emprunt(
             result.date_emprunt,
             result.exemplaire,
@@ -138,8 +136,7 @@ export const empruntRepository = {
       );
   
       return {
-        id: result.lastInsertRowid,
-        changes: result.changes
+c
       };
 
     }
@@ -147,5 +144,5 @@ export const empruntRepository = {
       console.log("Error: L'opération de modification de l'emprunt a échouée");
       throw new Error("Error: L'opération de modification de l'emprunt a échouée");
     }
-  }
+  },
 };

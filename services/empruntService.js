@@ -1,10 +1,12 @@
 // services/livreService.js
 import { empruntRepository } from '../repositories/empruntRepository.js';
+import { exemplaireRepository } from '../repositories/exemplaireRepository.js';
 import { Emprunt } from '../models/Emprunt.js';
 
 export const empruntService = {
   getAllEmprunts() {
     try{
+      console.log("Vive Javascript");
       // Récuperation de tous les emprunts de la BBDD
       return empruntRepository.findAllEmprunts();      
     }
@@ -26,7 +28,15 @@ export const empruntService = {
   },
 
   createEmprunt(empruntData) {
-    try{
+    try{      
+      let disponible = exemplaireRepository.estDisponible(empruntData.exemplaire);
+
+      disponible = 1; //amaniar el programa
+
+      if (!disponible) {
+        return({ success: false, data: [], message: "l'exemplaire n'est pas disponible" });
+      } 
+     
       const nouveauEmprunt = new Emprunt(        
         empruntData.date_emprunt,
         empruntData.exemplaire,
@@ -35,22 +45,22 @@ export const empruntService = {
         empruntData.date_retour_effective,
       );
 
-      // Validation via la méthode du modèle
-      const validation = nouveauEmprunt.estValide();
-      if (!validation.valide) {
-        throw new Error(validation.erreur);
+      console.log("nouveau emprunt: " + JSON.stringify(nouveauEmprunt));
+      
+      
+      let validation = nouveauEmprunt.estValide().valide;
+
+      if (!validation) {
+        return { success: false, data: [], message: validation.message };
       }
-      const disponible = nouveauEmprunt.estDisponible();
-      if (!disponible.valide) {
-        throw new Error(disponible.erreur);
-      }     
-  
-      // Sauvegarde via repository
-      return empruntRepository.createEmprunt(nouveauEmprunt);    
+
+      empruntRepository.createEmprunt(nouveauEmprunt);
+      exemplaireRepository.mettreIndisponible(empruntData.exemplaire);
+
+      return { data: nouveauEmprunt, message: "Emprunt réalisé avec succès" };
     }
     catch(error){
-      console.log('Error || empruntService || createEmprunt:' + error);
-      throw new Error('Error || empruntService || createEmprunt:' + error);
+      return { success: false, data: [], message: "Error || empruntService || createEmprunt:" + error }
     }
   },
 
@@ -60,8 +70,7 @@ export const empruntService = {
       return empruntRepository.deleteEmprunt(emprunt);
     }
     catch(error){
-      console.log("Error supprimant l'emprunt");
-      throw new Error("Error supprimant l'emprunt");
+      return { success: false, data: [], message: "Error || empruntService || deleteEmprunt:" + error }
     }
   },
 
@@ -78,16 +87,15 @@ export const empruntService = {
       // Validation via la méthode du modèle
       const validation = nouveauEmprunt.estValide();
       if (!validation.valide) {
-        throw new Error(validation.erreur);
+        return { success: false, data: [], message: validation.message };
       }
   
-      // Sauvegarde via repository
-      return empruntRepository.updateEmprunt(nouveauEmprunt);     
+      // Sauvegarde via repository        
+        return empruntRepository.updateEmprunt(nouveauEmprunt);            
     }
     catch(error)
     {
-      console.log('Error || empruntService || updateEmprunt:' + error);
-      throw new Error('Error || empruntService || updateEmprunt:' + error);
+      return { success: false, data: [], message: "Error || empruntService || updateEmprunt:" + error };
     }
   }
 };

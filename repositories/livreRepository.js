@@ -90,6 +90,37 @@ export const livreRepository = {
       throw new Error('Error fonction livreRepository' + error);
     };  
   },
+
+  
+  async findAllLivresByPageLilmit(page, limit) {
+    try{
+      let stmt = await bd.prepare(`
+      SELECT L.*
+      FROM livre AS L
+      LIMIT ?,?      
+      `);
+
+      // console.log(`LIMIT ${parseInt((page)-1)*parseInt(limit)}, ${limit}`);      
+   
+      const rows = await stmt.all((page-1)*limit, limit);       
+
+      console.log("resultat: " + JSON.stringify(rows));
+      
+      // Transformation en instances de classe    
+      return rows.map(row => new Livre(
+        row.id,
+        row.titre,
+        row.ISBN,
+        row.annee_Publication,
+        row.nb_Pages,
+        row.editeur
+      ));      
+    }
+    catch{
+      console.log('Error fonction livreRepository' + error);
+      throw new Error('Error fonction livreRepository' + error);
+    };  
+  },
   
   async findLivreById(id) {
       try{
