@@ -10,6 +10,7 @@ export async function openDB() {
     try {
             const myDb = open({
             filename: './data/bibliotheque.db',
+            // filename: "./tests/mydb.db",
             driver: sqlite3.Database,
         });            
 

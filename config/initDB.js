@@ -204,6 +204,10 @@ export async function populeTables(db) {
             ('Da Vinci Code', '9780307474278', 2003, 689, 9),
             ('Le Seigneur des Anneaux', '9782266121021', 1954, 1137, 10)`
             );
+            // ************ donnéesss *****************
+
+            // ************ donnéesss *****************
+
            console.log('table livre populated.');
 
             // population de la table nationalite

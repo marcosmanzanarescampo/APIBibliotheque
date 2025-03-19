@@ -16,7 +16,19 @@ export const livreController = {
       res.end(JSON.stringify({ success: false, error: 'Erreur serveur' }));
     }
   },
-
+    /**
+   * Récupère tous les livres
+   */
+    async   getAllLivresByTitre(req, res, titre){
+      try {
+        const livres = await livreService.getAllLivresByTitre(titre);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, data: livres }));
+      } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: 'Erreur serveur' }));
+      }
+    },
   
   /**
    * Récupère les livres par une categorie

@@ -24,7 +24,7 @@ export const auteurRepository = {
       ));      
     }
     catch{
-      return { success: false, data: [], message: "Error || auteurRepository || findAuteurRepository:" + error };
+      return { success: false, data: [], message: "Error || auteurRepository || findAllAuteurs:" + error };
     };  
   },
   

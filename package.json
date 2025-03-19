@@ -9,8 +9,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch server.js",
+    "start": "node server.js",
     "init-db": "rm -f ./data/bibliotheque.db && node ./config/initDB.js",
-    "vitest": "vitest"
+    "vitest": "vitest --globals"
   },
   "keywords": [],
   "author": "",

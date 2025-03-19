@@ -1,5 +1,6 @@
 // routes/routes.js
 import { livreController } from '../controllers/livreController.js';
+import { editeurController } from '../controllers/editeurControler.js';
 import { auteurController } from '../controllers/auteurController.js';
 import { empruntController } from '../controllers/empruntController.js';
 import { logger } from '../utils/logger.js';
@@ -8,14 +9,18 @@ import { logger } from '../utils/logger.js';
 const getPages = (str) => {
   return str.substring(str.indexOf("=")+1, str.indexOf('&'))
 }
-
 const getLimit = (str) => {
-  return str.substring(str.lastIndexOf("=")+1)  
+  return str.substring(str.lastIndexOf("=")+1);
 }
+
+const getTitle = (str) => {
+  // return replace('/api/livres/titre/', '').replace(/%20/g, ' ');
+  return str.substring(str.lastIndexOf("/")+1);
+};
 // **********************
 
 export const routes = (req, res) => {
-  const url = req.url;
+  const url = req.url.replace(/%20/g, ' ');
   const method = req.method;
 
   // Routes pour les livres
@@ -76,10 +81,21 @@ export const routes = (req, res) => {
     const id = url.split('/')[3];
     empruntController.deleteEmprunt(req, res);
   }
-
   // Routes pour les emprunts **********************************
 
-  // Routes les fonctionalitées avancées **********************************
+   // Routes pour les editeurs*********************************
+  else  if (url === '/api/editeurs' && method === 'GET') { //ok
+    editeurController.getAllEditeurs(req, res);
+  }
+  // Routes pour les editeurs*********************************
+
+   // Routes pour la recherche de livres ***********************
+   else  if (url.match(/^\/api\/livres\/titre\/([a-zA-Z0-9- ]+)$/) && method === 'GET') {
+    const titre = getTitle(url);
+    livreController.getAllLivresByTitre(req, res, titre);    
+  }
+  // Routes pour la recherche de livre ************************
+  
   else if(url.match(/^\/api\/livres\?categorie=\d+$/) && method === 'GET'){ //ok
     const categorie = url.split('=')[1];
     livreController.getAllLivresByCategorie(req, res, parseInt(categorie));       

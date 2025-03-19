@@ -5,13 +5,23 @@ import { Livre } from '../models/Livre.js';
 export const livreService = {
   getAllLivres() {
     try{
-      console.log("livres / service");
       // Récuperation de tous les livres de la BBDD
       return livreRepository.findAllLivres();      
     }
     catch(error){
       console.log('Error || livreService || getAllLivres:' + error);
       throw new Error('Error || livreService || getAllLivres' + error);
+    }
+  },
+
+
+  getAllLivresByTitre(titre) {
+    try{   
+      // Récuperation de tous les livres de la BBDD incluynt le texte 'titre' dans son titre
+      return livreRepository.findAllLivresByTitre(titre);      
+    }
+    catch(error){
+      throw new Error('Error || livreService || getAllLivresByTitre' + error);
     }
   },
 

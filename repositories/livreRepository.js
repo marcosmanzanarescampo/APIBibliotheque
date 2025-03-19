@@ -32,6 +32,32 @@ export const livreRepository = {
     };  
   },
 
+  async findAllLivresByTitre(titre) {
+    try{
+      let stmt = await bd.prepare(`
+         SELECT *
+         FROM livre
+         WHERE titre LIKE ?
+      `);
+   
+      const rows = await stmt.all(`%${titre}%`); 
+      
+      // Transformation en instances de classe    
+      return rows.map(row => new Livre(
+        row.id,
+        row.titre,
+        row.ISBN,
+        row.annee_Publication,
+        row.nb_Pages,
+        row.editeur
+      ));      
+    }
+    catch{
+      console.log('Error fonction livreRepository' + error);
+      throw new Error('Error fonction livreRepository' + error);
+    };  
+  },
+
   
   async findAllLivresByCategorie(categorie) {
 
